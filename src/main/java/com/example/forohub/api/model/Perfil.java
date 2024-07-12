@@ -1,16 +1,19 @@
 package com.example.forohub.api.model;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table(name = "perfiles")
-public class Perfil {
+public class Perfil implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     private String nombre;
+
+    // Getters and setters
 
     public Long getId() {
         return id;
@@ -28,4 +31,8 @@ public class Perfil {
         this.nombre = nombre;
     }
 
+    @Override
+    public String getAuthority() {
+        return nombre;
+    }
 }

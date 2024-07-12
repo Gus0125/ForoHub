@@ -4,11 +4,11 @@ import com.example.forohub.api.model.Usuario;
 import com.example.forohub.api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -18,10 +18,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String correoElectronico) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByCorreoElectronico(correoElectronico);
-        if (usuario == null) {
-            throw new UsernameNotFoundException("Usuario no encontrado");
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByCorreoElectronico(correoElectronico);
+
+        if (usuarioOptional.isEmpty()) {
+            throw new UsernameNotFoundException("Usuario no encontrado con correo: " + correoElectronico);
         }
-        return new org.springframework.security.core.userdetails.User(usuario.getCorreoElectronico(), usuario.getContrasena(), new ArrayList<>());
+
+        return usuarioOptional.get();
     }
 }
