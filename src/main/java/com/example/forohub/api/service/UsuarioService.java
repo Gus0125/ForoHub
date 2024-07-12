@@ -18,12 +18,19 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario getUsuarioByCorreoElectronico(String correoElectronico) {
-        Optional<Usuario> optionalUsuario = usuarioRepository.findByCorreoElectronico(correoElectronico);
-        return optionalUsuario.orElseThrow(() -> new RuntimeException("Usuario no encontrado con correo: " + correoElectronico));
-    }
-
     public List<Usuario> findAllUsuarios() {
         return usuarioRepository.findAll();
+    }
+
+    public Optional<Usuario> findUsuarioById(Long id) {
+        return usuarioRepository.findById(id);
+    }
+
+    public void deleteUsuario(Long id) {
+        usuarioRepository.deleteById(id);
+    }
+
+    public Optional<Usuario> findUsuarioByCorreoElectronico(String correoElectronico) {
+        return usuarioRepository.findByCorreoElectronico(correoElectronico);
     }
 }

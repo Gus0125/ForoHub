@@ -1,20 +1,16 @@
 package com.example.forohub.api.controller;
 
-import com.example.forohub.api.security.TokenService;
+import com.example.forohub.api.model.Usuario;
+import com.example.forohub.api.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
-@RequestMapping("/foro")
+@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
@@ -24,22 +20,16 @@ public class AuthController {
     private TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
+    public String login(@RequestBody Usuario loginRequest) {
         try {
-            String correoElectronico = credentials.get("correoElectronico");
-            String contrasena = credentials.get("contrasena");
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                    loginRequest.getCorreoElectronico(), loginRequest.getContrasena());
 
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(correoElectronico, contrasena);
             Authentication authentication = authenticationManager.authenticate(authToken);
 
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String token = tokenService.generateToken(userDetails);
-            Map<String, String> response = new HashMap<>();
-            response.put("token", token);
-
-            return ResponseEntity.ok(response);
+            return tokenService.generateToken(authentication);
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(401).build();
+            return "Error: " + e.getMessage();
         }
     }
 }

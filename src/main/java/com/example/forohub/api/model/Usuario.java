@@ -31,12 +31,7 @@ public class Usuario implements UserDetails {
     )
     private List<Perfil> perfiles;
 
-    @OneToMany(mappedBy = "autor")
-    private List<Topic> topicos;
-
-    @OneToMany(mappedBy = "autor")
-    private List<Respuesta> respuestas;
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -77,25 +72,9 @@ public class Usuario implements UserDetails {
         this.perfiles = perfiles;
     }
 
-    public List<Topic> getTopicos() {
-        return topicos;
-    }
-
-    public void setTopicos(List<Topic> topicos) {
-        this.topicos = topicos;
-    }
-
-    public List<Respuesta> getRespuestas() {
-        return respuestas;
-    }
-
-    public void setRespuestas(List<Respuesta> respuestas) {
-        this.respuestas = respuestas;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return perfiles; // Asegúrate de que tu clase Perfil implemente GrantedAuthority
+        return perfiles;
     }
 
     @Override

@@ -13,8 +13,7 @@ public class Perfil implements GrantedAuthority {
     @Column(nullable = false)
     private String nombre;
 
-    // Getters and setters
-
+    // Getters y setters
     public Long getId() {
         return id;
     }

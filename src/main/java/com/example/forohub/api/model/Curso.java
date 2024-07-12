@@ -13,12 +13,10 @@ public class Curso {
     @Column(nullable = false)
     private String nombre;
 
-    @Column(nullable = false)
-    private String categoria;
-
-    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "curso")
     private List<Topic> topicos;
 
+    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -33,14 +31,6 @@ public class Curso {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
     }
 
     public List<Topic> getTopicos() {

@@ -2,10 +2,9 @@ package com.example.forohub.api.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
-@Table(name = "topicos")
+@Table(name = "topics")
 public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,9 +30,7 @@ public class Topic {
     @JoinColumn(name = "curso_id", nullable = false)
     private Curso curso;
 
-    @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Respuesta> respuestas;
-
+    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -88,13 +85,5 @@ public class Topic {
 
     public void setCurso(Curso curso) {
         this.curso = curso;
-    }
-
-    public List<Respuesta> getRespuestas() {
-        return respuestas;
-    }
-
-    public void setRespuestas(List<Respuesta> respuestas) {
-        this.respuestas = respuestas;
     }
 }

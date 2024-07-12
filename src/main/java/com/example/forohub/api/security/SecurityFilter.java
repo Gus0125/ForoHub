@@ -1,5 +1,7 @@
 package com.example.forohub.api.security;
 
+import com.example.forohub.api.service.TokenService;
+import com.example.forohub.api.service.AutenticacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,8 +30,8 @@ public class SecurityFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String token = getTokenFromRequest(request);
         if (token != null && tokenService.validateToken(token)) {
-            String username = tokenService.getUsernameFromToken(token);
-            UserDetails userDetails = autenticacionService.loadUserByUsername(username);
+            Long userId = tokenService.getUserIdFromToken(token);
+            UserDetails userDetails = autenticacionService.loadUserById(userId);
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

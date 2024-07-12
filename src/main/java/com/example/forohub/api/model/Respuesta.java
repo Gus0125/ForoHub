@@ -10,23 +10,21 @@ public class Respuesta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String mensaje;
-
-    @ManyToOne
-    @JoinColumn(name = "topico_id", nullable = false)
-    private Topic topico;
 
     @Column(nullable = false)
     private LocalDateTime fechaCreacion;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "autor_id", nullable = false)
     private Usuario autor;
 
-    @Column(nullable = false)
-    private boolean solucion;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "topico_id", nullable = false)
+    private Topic topico;
 
+    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -41,14 +39,6 @@ public class Respuesta {
 
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
-    }
-
-    public Topic getTopico() {
-        return topico;
-    }
-
-    public void setTopico(Topic topico) {
-        this.topico = topico;
     }
 
     public LocalDateTime getFechaCreacion() {
@@ -67,11 +57,11 @@ public class Respuesta {
         this.autor = autor;
     }
 
-    public boolean isSolucion() {
-        return solucion;
+    public Topic getTopico() {
+        return topico;
     }
 
-    public void setSolucion(boolean solucion) {
-        this.solucion = solucion;
+    public void setTopico(Topic topico) {
+        this.topico = topico;
     }
 }

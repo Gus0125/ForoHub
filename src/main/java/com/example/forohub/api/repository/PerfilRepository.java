@@ -1,7 +1,7 @@
 package com.example.forohub.api.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.forohub.api.model.Perfil;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PerfilRepository extends JpaRepository<Perfil, Long> {
 }
